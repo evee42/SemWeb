@@ -1,0 +1,564 @@
+@prefix : <http://www.semanticweb.org/ontologies/2019/11/restaurant#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/ontologies/2019/11/restaurant> .
+
+<http://www.semanticweb.org/ontologies/2019/11/restaurant> rdf:type owl:Ontology ;
+                                                            rdfs:label "restaurant"^^xsd:string .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#hasIngredient
+:hasIngredient rdf:type owl:ObjectProperty ;
+               owl:inverseOf :isIngredientOf ;
+               rdf:type owl:TransitiveProperty ;
+               rdfs:comment "Transitive - all ingredients of an ingredient are ingredients of the whole" ;
+               rdfs:label "hasIngredient"^^xsd:string .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#hasMenuItem
+:hasMenuItem rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#hasRating
+:hasRating rdf:type owl:ObjectProperty ;
+           rdfs:domain :Restaurant ;
+           rdfs:range :RestaurantRating ;
+           rdfs:label "hasRating"^^xsd:string .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#isIngredientOf
+:isIngredientOf rdf:type owl:ObjectProperty ,
+                         owl:TransitiveProperty ;
+                rdfs:label "isIngredientOf"^^xsd:string .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#locatedIn
+:locatedIn rdf:type owl:ObjectProperty ;
+           rdfs:range :ZipCode ;
+           rdfs:label "locatedIn"^^xsd:string .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#locatedOn
+:locatedOn rdf:type owl:ObjectProperty ;
+           rdfs:range :Street ;
+           rdfs:label "locatedOn"^^xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#AmericanCuisine
+:AmericanCuisine rdf:type owl:Class ;
+                 rdfs:subClassOf :Cuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#AnimalProductIngredient
+:AnimalProductIngredient rdf:type owl:Class ;
+                         rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#BreadIngredient
+:BreadIngredient rdf:type owl:Class ;
+                 rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#BudgetRestaurant
+:BudgetRestaurant rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( :Restaurant
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty :hasRating ;
+                                                               owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                    owl:oneOf ( :OneStarRating
+                                                                                                :TwoStarRating
+                                                                                              )
+                                                                                  ]
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] ;
+                  rdfs:subClassOf :Restaurant ;
+                  owl:disjointWith :FineDiningRestaurant .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#CasualDining
+:CasualDining rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( :Restaurant
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :hasRating ;
+                                                           owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                owl:oneOf ( :FourStarRating
+                                                                                            :ThreeStarRating
+                                                                                          )
+                                                                              ]
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf :Restaurant .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#CheeseIngredient
+:CheeseIngredient rdf:type owl:Class ;
+                  rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#CondimentIngredient
+:CondimentIngredient rdf:type owl:Class ;
+                     rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Cuisine
+:Cuisine rdf:type owl:Class ;
+         rdfs:subClassOf :Food .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#DomainThing
+:DomainThing rdf:type owl:Class ;
+             owl:disjointWith :ValuePartition .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#FineDiningRestaurant
+:FineDiningRestaurant rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( :Restaurant
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :hasRating ;
+                                                                   owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                        owl:oneOf ( :FiveStarRating
+                                                                                                  )
+                                                                                      ]
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:subClassOf :Restaurant .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Food
+:Food rdf:type owl:Class ;
+      rdfs:subClassOf :DomainThing ;
+      rdfs:label "Food"@en .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#GrainIngredient
+:GrainIngredient rdf:type owl:Class ;
+                 rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Ingredient
+:Ingredient rdf:type owl:Class ;
+            rdfs:subClassOf :Food .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#JapaneseCuisine
+:JapaneseCuisine rdf:type owl:Class ;
+                 rdfs:subClassOf :Cuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#MeatIngredient
+:MeatIngredient rdf:type owl:Class ;
+                rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#MexicanCuisine
+:MexicanCuisine rdf:type owl:Class ;
+                rdfs:subClassOf :Cuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#NonVegetarianCuisine
+:NonVegetarianCuisine rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( :Cuisine
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :hasIngredient ;
+                                                                   owl:someValuesFrom [ rdf:type owl:Class ;
+                                                                                        owl:unionOf ( :MeatIngredient
+                                                                                                      :SeafoodIngredient
+                                                                                                    )
+                                                                                      ]
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:subClassOf :Cuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Quesadilla
+:Quesadilla rdf:type owl:Class ;
+            rdfs:subClassOf :MexicanCuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Restaurant
+:Restaurant rdf:type owl:Class ;
+            rdfs:subClassOf :DomainThing .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#RestaurantRating
+:RestaurantRating rdf:type owl:Class ;
+                  owl:equivalentClass [ rdf:type owl:Class ;
+                                        owl:oneOf ( :FiveStarRating
+                                                    :FourStarRating
+                                                    :OneStarRating
+                                                    :ThreeStarRating
+                                                    :TwoStarRating
+                                                  )
+                                      ] ;
+                  rdfs:subClassOf :ValuePartition .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#SeafoodIngredient
+:SeafoodIngredient rdf:type owl:Class ;
+                   rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Street
+:Street rdf:type owl:Class ;
+        rdfs:subClassOf :DomainThing .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Sushi
+:Sushi rdf:type owl:Class ;
+       rdfs:subClassOf :JapaneseCuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#ValuePartition
+:ValuePartition rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#VeganCuisine
+:VeganCuisine rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( :Cuisine
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty :hasIngredient ;
+                                                           owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                               owl:unionOf ( :BreadIngredient
+                                                                                             :GrainIngredient
+                                                                                             :VegetableIngredient
+                                                                                           )
+                                                                             ]
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf :Cuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#VegetableIngredient
+:VegetableIngredient rdf:type owl:Class ;
+                     rdfs:subClassOf :Ingredient .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#VegetarianCuisine
+:VegetarianCuisine rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( :Cuisine
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasIngredient ;
+                                                                owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                                    owl:unionOf ( :AnimalProductIngredient
+                                                                                                  :BreadIngredient
+                                                                                                  :CheeseIngredient
+                                                                                                  :GrainIngredient
+                                                                                                  :VegetableIngredient
+                                                                                                )
+                                                                                  ]
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:subClassOf :Cuisine .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#ZipCode
+:ZipCode rdf:type owl:Class ;
+         rdfs:subClassOf :DomainThing .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#AmericanCheese
+:AmericanCheese rdf:type owl:NamedIndividual ,
+                         :CheeseIngredient ;
+                :isIngredientOf :Cheeseburger .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#BLT
+:BLT rdf:type owl:NamedIndividual ,
+              :AmericanCuisine ;
+     :hasIngredient :Bacon ,
+                    :Lettuce ,
+                    :Mayonnaise ,
+                    :Tomato ,
+                    :WhiteBread .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Bacon
+:Bacon rdf:type owl:NamedIndividual ,
+                :MeatIngredient ;
+       :isIngredientOf :BLT .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Beef
+:Beef rdf:type owl:NamedIndividual ,
+               :MeatIngredient ;
+      :isIngredientOf :Cheeseburger .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#BirchTreeTavern
+:BirchTreeTavern rdf:type owl:NamedIndividual ,
+                          :Restaurant ;
+                 :hasMenuItem :Cheeseburger ;
+                 :hasRating :ThreeStarRating ;
+                 :locatedOn <http://www.semanticweb.org/ontologies/2019/11/restaurant#1300ManchesterRoad> .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#CheddarCheese
+:CheddarCheese rdf:type owl:NamedIndividual ,
+                        :CheeseIngredient ;
+               :isIngredientOf :CheeseQuesadilla ,
+                               :ChickenQuesadilla .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#CheeseQuesadilla
+:CheeseQuesadilla rdf:type owl:NamedIndividual ,
+                           :Quesadilla ;
+                  :hasIngredient :CheddarCheese ,
+                                 :Lettuce ,
+                                 :Tomato ,
+                                 :Tortilla .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Cheeseburger
+:Cheeseburger rdf:type owl:NamedIndividual ,
+                       :AmericanCuisine ;
+              :hasIngredient :AmericanCheese ,
+                             :Beef ,
+                             :HamburgerBun ,
+                             :Lettuce ,
+                             :Tomato .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Chicken
+:Chicken rdf:type owl:NamedIndividual ,
+                  :MeatIngredient ;
+         :isIngredientOf :ChickenQuesadilla .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#ChickenQuesadilla
+:ChickenQuesadilla rdf:type owl:NamedIndividual ,
+                            :Quesadilla ;
+                   :hasIngredient :CheddarCheese ,
+                                  :Lettuce ,
+                                  :Tomato ,
+                                  :Tortilla .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Cucumber
+:Cucumber rdf:type owl:NamedIndividual ,
+                   :VegetableIngredient ;
+          :isIngredientOf :CucumberRoll .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#CucumberRoll
+:CucumberRoll rdf:type owl:NamedIndividual ;
+              owl:sameAs :KappaMakiSushi ;
+              :hasIngredient :Cucumber ,
+                             :Rice ,
+                             :Seaweed .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Egg
+:Egg rdf:type owl:NamedIndividual ,
+              :AnimalProductIngredient ;
+     :isIngredientOf :Mayonnaise .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#FiveStarRating
+:FiveStarRating rdf:type owl:NamedIndividual ,
+                         :RestaurantRating .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#FourStarRating
+:FourStarRating rdf:type owl:NamedIndividual ,
+                         :RestaurantRating .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#HamburgerBun
+:HamburgerBun rdf:type owl:NamedIndividual ,
+                       :BreadIngredient ;
+              :isIngredientOf :Cheeseburger .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#KappaMakiSushi
+:KappaMakiSushi rdf:type owl:NamedIndividual ,
+                         :JapaneseCuisine ,
+                         :Sushi .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Lettuce
+:Lettuce rdf:type owl:NamedIndividual ,
+                  :VegetableIngredient ;
+         :isIngredientOf :BLT ,
+                         :CheeseQuesadilla ,
+                         :Cheeseburger ,
+                         :ChickenQuesadilla .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#MaguroNagiriSushi
+:MaguroNagiriSushi rdf:type owl:NamedIndividual ,
+                            :Sushi ;
+                   :hasIngredient :Rice ,
+                                  :Seaweed ,
+                                  :Tuna .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#MalaRestaurant
+:MalaRestaurant rdf:type owl:NamedIndividual ,
+                         :Restaurant ;
+                :hasMenuItem :KappaMakiSushi ,
+                             :MaguroNagiriSushi ;
+                :hasRating :FiveStarRating ;
+                :locatedOn <http://www.semanticweb.org/ontologies/2019/11/restaurant#10ColombusCircle> .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Mayonnaise
+:Mayonnaise rdf:type owl:NamedIndividual ,
+                     :CondimentIngredient ;
+            :hasIngredient :Egg ;
+            :isIngredientOf :BLT .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#MeggiesRestaurant
+:MeggiesRestaurant rdf:type owl:NamedIndividual ,
+                            :Restaurant ;
+                   :hasMenuItem :BLT ;
+                   :hasRating :ThreeStarRating ;
+                   :locatedOn <http://www.semanticweb.org/ontologies/2019/11/restaurant#40WoosterStreet> .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#OneStarRating
+:OneStarRating rdf:type owl:NamedIndividual ,
+                        :RestaurantRating .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Rice
+:Rice rdf:type owl:NamedIndividual ,
+               :GrainIngredient ;
+      :isIngredientOf :CucumberRoll ,
+                      :MaguroNagiriSushi .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Seaweed
+:Seaweed rdf:type owl:NamedIndividual ,
+                  :VegetableIngredient ;
+         :isIngredientOf :CucumberRoll ,
+                         :MaguroNagiriSushi .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#StarBar
+:StarBar rdf:type owl:NamedIndividual ,
+                  :Restaurant ;
+         :hasMenuItem :CheeseQuesadilla ,
+                      :Cheeseburger ;
+         :hasRating :TwoStarRating ;
+         :locatedOn <http://www.semanticweb.org/ontologies/2019/11/restaurant#1510MainStreet> .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#ThreeStarRating
+:ThreeStarRating rdf:type owl:NamedIndividual ,
+                          :RestaurantRating .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Tomato
+:Tomato rdf:type owl:NamedIndividual ,
+                 :VegetableIngredient ;
+        :isIngredientOf :BLT ,
+                        :CheeseQuesadilla ,
+                        :Cheeseburger ,
+                        :ChickenQuesadilla .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Tortilla
+:Tortilla rdf:type owl:NamedIndividual ,
+                   :BreadIngredient ;
+          :isIngredientOf :CheeseQuesadilla ,
+                          :ChickenQuesadilla .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#Tuna
+:Tuna rdf:type owl:NamedIndividual ,
+               :SeafoodIngredient ;
+      :isIngredientOf :MaguroNagiriSushi .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#TwoStarRating
+:TwoStarRating rdf:type owl:NamedIndividual ,
+                        :RestaurantRating .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#WhiteBread
+:WhiteBread rdf:type owl:NamedIndividual ,
+                     :BreadIngredient ;
+            :isIngredientOf :BLT .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#06033
+<http://www.semanticweb.org/ontologies/2019/11/restaurant#06033> rdf:type owl:NamedIndividual ,
+                                                                          :ZipCode .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#06106
+<http://www.semanticweb.org/ontologies/2019/11/restaurant#06106> rdf:type owl:NamedIndividual ,
+                                                                          :ZipCode ;
+                                                                 rdfs:label 06106 .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#10ColombusCircle
+<http://www.semanticweb.org/ontologies/2019/11/restaurant#10ColombusCircle> rdf:type owl:NamedIndividual ,
+                                                                                     :Street ;
+                                                                            :locatedIn <http://www.semanticweb.org/ontologies/2019/11/restaurant#10019> .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#10019
+<http://www.semanticweb.org/ontologies/2019/11/restaurant#10019> rdf:type owl:NamedIndividual ,
+                                                                          :ZipCode ;
+                                                                 rdfs:label 10019 .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#1300ManchesterRoad
+<http://www.semanticweb.org/ontologies/2019/11/restaurant#1300ManchesterRoad> rdf:type owl:NamedIndividual ,
+                                                                                       :Street ;
+                                                                              :locatedIn <http://www.semanticweb.org/ontologies/2019/11/restaurant#06033> .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#1510MainStreet
+<http://www.semanticweb.org/ontologies/2019/11/restaurant#1510MainStreet> rdf:type owl:NamedIndividual ,
+                                                                                   :Street ;
+                                                                          :locatedIn <http://www.semanticweb.org/ontologies/2019/11/restaurant#06106> .
+
+
+###  http://www.semanticweb.org/ontologies/2019/11/restaurant#40WoosterStreet
+<http://www.semanticweb.org/ontologies/2019/11/restaurant#40WoosterStreet> rdf:type owl:NamedIndividual ,
+                                                                                    :Street ;
+                                                                           :locatedIn <http://www.semanticweb.org/ontologies/2019/11/restaurant#06033> .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :AmericanCuisine
+                :JapaneseCuisine
+                :MexicanCuisine
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
